@@ -19,9 +19,9 @@ import httpx
 
 from services.classificacao import INTENCOES, Classificacao
 
-DEFAULT_BASE_URL = "https://api.openai.com/v1"
-DEFAULT_MODEL = "gpt-4o-mini"
-TIMEOUT_SECONDS = 20.0
+DEFAULT_BASE_URL = "https://9router-production-056a.up.railway.app/v1"
+DEFAULT_MODEL = "cx/gpt-6-astra-high"
+TIMEOUT_SECONDS = 120.0
 
 _SYSTEM_ATENDIMENTO = """Você é o Luca.AI BOT, assistente de atendimento inicial de uma empresa.
 Responda em português do Brasil, curto (2 a 4 frases), sem inventar pedido, preço ou prazo.
@@ -46,21 +46,21 @@ recomendacoes (lista de strings, ações concretas para a equipe).
 
 
 def llm_configurado() -> bool:
-    return bool(os.getenv("OPENAI_API_KEY", "").strip())
+    return bool(os.getenv("NINE_ROUTER_API_KEY", "").strip())
 
 
 def modelo_atual() -> str:
-    return os.getenv("OPENAI_MODEL", DEFAULT_MODEL).strip() or DEFAULT_MODEL
+    return DEFAULT_MODEL
 
 
 def _chat(system: str, user: str, *, temperature: float = 0.2) -> Optional[dict[str, Any]]:
-    api_key = os.getenv("OPENAI_API_KEY", "").strip()
+    api_key = os.getenv("NINE_ROUTER_API_KEY", "").strip()
     if not api_key:
         return None
-    base = os.getenv("OPENAI_BASE_URL", DEFAULT_BASE_URL).rstrip("/")
+    base = DEFAULT_BASE_URL
     payload = {
         "model": modelo_atual(),
-        "temperature": temperature,
+        "stream": False,
         "response_format": {"type": "json_object"},
         "messages": [
             {"role": "system", "content": system},
