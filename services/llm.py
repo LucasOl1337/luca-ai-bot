@@ -20,7 +20,7 @@ import httpx
 from services.classificacao import INTENCOES, Classificacao
 
 DEFAULT_BASE_URL = "https://9router-production-056a.up.railway.app/v1"
-DEFAULT_MODEL = "cx/gpt-6-astra-high"
+DEFAULT_MODEL = "cx/gpt-6.2-astra-high"
 TIMEOUT_SECONDS = 120.0
 
 _SYSTEM_ATENDIMENTO = """Você é o Luca.AI BOT, assistente de atendimento inicial de uma empresa.
